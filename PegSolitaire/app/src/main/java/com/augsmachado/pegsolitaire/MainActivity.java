@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTimer;
     private TextView mResults;
 
+    private Button mFirstButton, mSecondButton, mThirdButton, mFourthButton, mFifthButton;
+    private  Button mSixthButton, mSeventhButton, mEighthButton, mNinthButton;
 
 
 
@@ -38,8 +40,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Generate random number
-        int randomNumber = generateRandomNumber();
+        int randomNumber = generateRandomNumber(MAX_RANDOM);
+
+        if (randomNumber == 1 || randomNumber == 0) randomNumber += 2;
+
         mResults.setText(String.valueOf(randomNumber));
+
+        // Generate game board
+        generateBoardGame(randomNumber);
 
         // Initialize countdown timer
         new CountDownTimer(duration, MAX_MILLISECONDS) {
@@ -74,10 +82,77 @@ public class MainActivity extends AppCompatActivity {
 
         mResults = findViewById(R.id.results);
 
+        mFirstButton = findViewById(R.id.line1Button1);
+        mSecondButton = findViewById(R.id.line1Button2);
+        mThirdButton = findViewById(R.id.line1Button3);
+        mFourthButton = findViewById(R.id.line2Button1);
+        mFifthButton = findViewById(R.id.line2Button2);
+        mSixthButton = findViewById(R.id.line2Button3);
+        mSeventhButton = findViewById(R.id.line3Button1);
+        mEighthButton = findViewById(R.id.line3Button2);
+        mNinthButton = findViewById(R.id.line3Button3);
 
     }
 
-    private int generateRandomNumber() {
-        return ThreadLocalRandom.current().nextInt(MAX_RANDOM);
+    private int generateRandomNumber(int value) {
+        return ThreadLocalRandom.current().nextInt(value);
+    }
+
+    private void generateBoardGame (int randomNumber) {
+        int[] array;
+
+        // Successive divisions of the random number
+        array = successiveDivisions(randomNumber);
+
+        // Difference between summation and random number
+        array = diffSummationRandomNumber(array, randomNumber);
+
+
+        mFirstButton.setText(String.valueOf(array[0]));
+        mSecondButton.setText(String.valueOf(array[1]));
+        mThirdButton.setText(String.valueOf(array[2]));
+        mFourthButton.setText(String.valueOf(array[3]));
+        mFifthButton.setText(String.valueOf(array[4]));
+        mSixthButton.setText(String.valueOf(array[5]));
+        mSeventhButton.setText(String.valueOf(array[6]));
+        mEighthButton.setText(String.valueOf(array[7]));
+        mNinthButton.setText(String.valueOf(array[8]));
+    }
+
+    // Successive divisions of the random number
+    private int[] successiveDivisions (int randomNumber) {
+        int[] array = new int[9];
+        array[0] = randomNumber / 2;
+
+        for(int i = 1; i < 8; i++) {
+            array[i] = array[i-1]/ 2;
+        }
+
+        return array;
+    }
+
+    // Difference between summation and random number
+    private int[] diffSummationRandomNumber(int[] array, int randomNumber) {
+        int sum = 0;
+
+        // Summation of values on array
+        for(int i = 0; i < 9; i++) {
+            sum = sum + array[i];
+        }
+
+        // Difference between summation and random number
+        int diff = randomNumber - sum - 1;
+
+        // Test the positions is not zero
+        sum = 0;
+        for(int i = 0; i < 9; i++) {
+            if (array[i] != 0) sum++;
+        }
+
+        // Add diff in random position of array, if value different of zero
+        int i = generateRandomNumber(sum);
+        array[i] = array[i] + diff;
+        
+        return array;
     }
 }
