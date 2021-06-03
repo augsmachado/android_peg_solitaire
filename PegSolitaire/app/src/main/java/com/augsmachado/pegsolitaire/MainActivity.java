@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mResults;
 
     private Button mFirstButton, mSecondButton, mThirdButton, mFourthButton, mFifthButton;
-    private  Button mSixthButton, mSeventhButton, mEighthButton, mNinthButton;
+    private Button mSixthButton, mSeventhButton, mEighthButton, mNinthButton;
 
 
 
@@ -47,13 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Generate random number
         int randomNumber = generateRandomNumber(MAX_RANDOM);
-
         if (randomNumber < 2) randomNumber = 2;
 
-        mResults.setText(String.valueOf(randomNumber));
-
         // Generate game board
-        generateBoardGame(randomNumber);
+        int[] board = new int[BOARD];
+        board = generateBoardGame(randomNumber);
+
+        // Calculate results
+        int results = randomNumber;
+        mResults.setText(String.valueOf(results));
+
+
 
         // Initialize countdown timer
         new CountDownTimer(duration, MAX_MILLISECONDS) {
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         return ThreadLocalRandom.current().nextInt(value);
     }
 
-    private void generateBoardGame (int randomNumber) {
+    private int[] generateBoardGame (int randomNumber) {
         int[] array;
 
         // Successive divisions of the random number
@@ -128,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
         mSeventhButton.setText(String.valueOf(array[6]));
         mEighthButton.setText(String.valueOf(array[7]));
         mNinthButton.setText(String.valueOf(array[8]));
+
+        return array;
     }
 
     // Successive divisions of the random number
