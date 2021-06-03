@@ -9,7 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     public static final int MAX_MILLISECONDS = 1000;
     public static final int MAX_MINUTES = 2;
     public static final int MAX_RANDOM = 1000;
+    public static final int MAX_HAS_ZEROS = 50;
+    public static final int BOARD = 9;
 
     // Initialize variables
     private TextView mTimer;
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         // Generate random number
         int randomNumber = generateRandomNumber(MAX_RANDOM);
 
-        if (randomNumber == 1 || randomNumber == 0) randomNumber += 2;
+        if (randomNumber < 2) randomNumber = 2;
 
         mResults.setText(String.valueOf(randomNumber));
 
@@ -107,6 +113,11 @@ public class MainActivity extends AppCompatActivity {
         // Difference between summation and random number
         array = diffSummationRandomNumber(array, randomNumber);
 
+        // Verify if the board has positions with zero values
+        array = hasZeros(array, randomNumber);
+
+        // Shuffle the values of array
+        array = shuffleArray(array);
 
         mFirstButton.setText(String.valueOf(array[0]));
         mSecondButton.setText(String.valueOf(array[1]));
@@ -121,38 +132,73 @@ public class MainActivity extends AppCompatActivity {
 
     // Successive divisions of the random number
     private int[] successiveDivisions (int randomNumber) {
-        int[] array = new int[9];
+        int[] array = new int[BOARD];
         array[0] = randomNumber / 2;
 
-        for(int i = 1; i < 8; i++) {
-            array[i] = array[i-1]/ 2;
+        for(int i = 1; i < array.length - 1; i++) {
+            int div =  (array[i-1]/ 2);
+
+            if ( div != 1) array[i] = div;
         }
 
         return array;
     }
 
-    // Difference between summation and random number
+    // When difference between summation and random number is sup 1 unity
     private int[] diffSummationRandomNumber(int[] array, int randomNumber) {
         int sum = 0;
 
         // Summation of values on array
-        for(int i = 0; i < 9; i++) {
+        for(int i = 0; i < array.length; i++) {
             sum = sum + array[i];
         }
 
         // Difference between summation and random number
         int diff = randomNumber - sum - 1;
 
-        // Test the positions is not zero
-        sum = 0;
-        for(int i = 0; i < 9; i++) {
-            if (array[i] != 0) sum++;
+        // Test and return the last position where is not zero
+        // Add diff in random position of array, if value different of zero
+        int i = generateRandomNumber(notZero(array));
+        array[i] = array[i] + diff;
+
+        return array;
+    }
+
+    // Return the last position is not zero
+    private int notZero(int[] array) {
+        int notZero = 0;
+        for(int i = 0; i < array.length; i++) {
+            if (array[i] != 0) notZero++;
+        }
+        return notZero;
+    }
+
+    // When the board has zeros
+    private int[] hasZeros(int[] array, int randomNumber) {
+        for (int i = notZero(array); i < array.length; i++) {
+
+            // Verify if the position really have zero
+            if (array[i] == 0) {
+
+                // Generate number to position
+                array[i] = (randomNumber + generateRandomNumber(MAX_HAS_ZEROS) + 1) / 2;
+            }
         }
 
-        // Add diff in random position of array, if value different of zero
-        int i = generateRandomNumber(sum);
-        array[i] = array[i] + diff;
-        
+        return array;
+    }
+
+    // Shuffle the values of array
+    private int[] shuffleArray (int[] array) {
+        Random r = new Random();
+
+        for (int i = 0; i < array.length; i++) {
+            int randomPosition = r.nextInt(array.length);
+            int temp = array[i];
+            array[i] = array[randomPosition];
+            array[randomPosition] = temp;
+        }
+
         return array;
     }
 }
