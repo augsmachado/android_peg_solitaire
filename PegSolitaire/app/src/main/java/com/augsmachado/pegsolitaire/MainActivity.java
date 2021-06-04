@@ -28,12 +28,12 @@ public class MainActivity extends AppCompatActivity {
     // Initialize variables
     private TextView mTimer;
     private TextView mResults;
+    private TextView mScores;
 
+    // Initialize buttons
     private Button mFirstButton, mSecondButton, mThirdButton, mFourthButton, mFifthButton;
     private Button mSixthButton, mSeventhButton, mEighthButton, mNinthButton;
     private Button mStartNewGame;
-
-
 
 
     @Override
@@ -41,45 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
-/*
-        // Generate random number
-        int randomNumber = generateRandomNumber(MAX_RANDOM);
-        if (randomNumber < 2) randomNumber = 2;
-
-        // Generate game board
-        int[] board = new int[BOARD];
-        board = generateBoardGame(randomNumber);
-
-        // Calculate results
-        int results = randomNumber;
-        mResults.setText(String.valueOf(results));
-
-        mResults.setText(String.valueOf(randomNumber));
-        String str = (String) mResults.getText();
-        int results = Integer.parseInt(str);
-
-        mResults.setText(String.valueOf(results));
-*/
-
-
-        // Initialize mStartNewGame button behavior
-        mStartNewGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Generate random number
-                int randomNumber = generateRandomNumber(MAX_RANDOM);
-                if (randomNumber < 2) randomNumber = 2;
-
-                // Generate game board
-                int[] board = new int[BOARD];
-                board = generateBoardGame(randomNumber);
-
-                // Calculate results
-                int results = randomNumber;
-                mResults.setText(String.valueOf(results));
-            }
-        });
-
 
         // Initialize timer duration
         long duration = TimeUnit.MINUTES.toMillis(MAX_MINUTES);
@@ -107,6 +68,26 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
             }
         }.start();
+
+
+        // Initialize mStartNewGame button behavior
+        mStartNewGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Generate random number above 2
+                int randomNumber = generateRandomNumber(MAX_RANDOM);
+
+                if (randomNumber < 2) randomNumber = 2;
+
+                // Generate game board and set mResults view
+                generateBoardGame(randomNumber);
+
+                mResults.setText(String.valueOf(randomNumber));
+            }
+        });
+
+
+
 
 
         // Set behavior for each button displayed with numbers
@@ -163,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         mTimer = findViewById(R.id.timer);
 
         mResults = findViewById(R.id.results);
+        mScores = findViewById(R.id.scores);
 
         mFirstButton = findViewById(R.id.line1Button1);
         mSecondButton = findViewById(R.id.line1Button2);
@@ -189,10 +171,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Generate random number above 2
     private int generateRandomNumber(int value) {
         return ThreadLocalRandom.current().nextInt(value);
     }
 
+    // Generate game board
     private int[] generateBoardGame (int randomNumber) {
         int[] array;
 
@@ -302,6 +286,20 @@ public class MainActivity extends AppCompatActivity {
 
         results = results - buttonValue;
 
+        addScores(results);
+
         mResults.setText(String.valueOf(results));
+    }
+
+    // When results = 1 and timer > 0, add 1 in score
+    private void addScores(int results) {
+        String sScore = (String) mScores.getText();
+        int scores = Integer.parseInt(sScore);
+
+        if (results == 1) {
+            scores = scores + 1;
+
+            mScores.setText(String.valueOf(scores));
+        }
     }
 }
