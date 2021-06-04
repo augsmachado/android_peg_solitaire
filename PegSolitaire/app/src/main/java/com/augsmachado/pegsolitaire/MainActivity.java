@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     // Initialize buttons
     private Button mFirstButton, mSecondButton, mThirdButton, mFourthButton, mFifthButton;
     private Button mSixthButton, mSeventhButton, mEighthButton, mNinthButton;
-    private Button mStartNewGame;
+    private Button mStart, mRestart;
 
 
     @Override
@@ -42,52 +42,64 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bindViews();
 
-        // Initialize timer duration
-        long duration = TimeUnit.MINUTES.toMillis(MAX_MINUTES);
-
-        // Initialize countdown timer
-        new CountDownTimer(duration, MAX_MILLISECONDS) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                // When tick, convert millisecond to minute and second
-                String sDuration = String.format(Locale.ENGLISH, " %02d:%02d",
-                        TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
-                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
-                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-
-                // Set converted string on text view
-                mTimer.setText(sDuration);
-            }
-
-            @Override
-            public void onFinish() {
-                // When finish, hide text view
-                mTimer.setVisibility(View.GONE);
-
-                // Display toast
-                Toast.makeText(getApplicationContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
-            }
-        }.start();
 
 
-        // Initialize mStartNewGame button behavior
-        mStartNewGame.setOnClickListener(new View.OnClickListener() {
+
+
+
+        // Initialize mStart button
+        mStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Generate random number above 2
-                int randomNumber = generateRandomNumber(MAX_RANDOM);
+                newGame();
+                showButtons();
 
-                if (randomNumber < 2) randomNumber = 2;
+                mStart.setVisibility(View.INVISIBLE);
+                mTimer.setVisibility(View.VISIBLE);
 
-                // Generate game board and set mResults view
-                generateBoardGame(randomNumber);
+                // Initialize timer duration
+                long duration = TimeUnit.MINUTES.toMillis(MAX_MINUTES);
 
-                mResults.setText(String.valueOf(randomNumber));
+                // Initialize countdown timer
+                new CountDownTimer(duration, MAX_MILLISECONDS) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        // When tick, convert millisecond to minute and second
+                        String sDuration = String.format(Locale.ENGLISH, " %02d:%02d",
+                                TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
+                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                        TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+
+                        // Set converted string on text view
+                        mTimer.setText(sDuration);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        // When finish, hide text view
+                        mTimer.setVisibility(View.GONE);
+
+                        hideButtons();
+                        mStart.setVisibility(View.VISIBLE);
+                        mRestart.setVisibility(View.INVISIBLE);
+
+                        // Display toast
+                        Toast.makeText(getApplicationContext(), "Countdown timer has ended", Toast.LENGTH_SHORT).show();
+                    }
+                }.start();
             }
         });
 
+        // Restart with new game
+        mRestart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newGame();
+                showButtons();
 
-
+                mRestart.setVisibility(View.INVISIBLE);
+            }
+        });
 
 
         // Set behavior for each button displayed with numbers
@@ -95,49 +107,75 @@ public class MainActivity extends AppCompatActivity {
         mFirstButton.setOnClickListener(v -> {
             String str = (String) mFirstButton.getText();
             subtractNumber(str);
+
+            mFirstButton.setClickable(false);
+            mFirstButton.setVisibility(View.INVISIBLE);
         });
 
         mSecondButton.setOnClickListener(v -> {
             String str = (String) mSecondButton.getText();
             subtractNumber(str);
+
+            mSecondButton.setClickable(false);
+            mSecondButton.setVisibility(View.INVISIBLE);
         });
 
         mThirdButton.setOnClickListener(v -> {
             String str = (String) mThirdButton.getText();
             subtractNumber(str);
+
+            mThirdButton.setClickable(false);
+            mThirdButton.setVisibility(View.INVISIBLE);
         });
 
         mFourthButton.setOnClickListener(v -> {
             String str = (String) mFourthButton.getText();
             subtractNumber(str);
+
+            mFourthButton.setClickable(false);
+            mFourthButton.setVisibility(View.INVISIBLE);
         });
 
         mFifthButton.setOnClickListener(v -> {
             String str = (String) mFifthButton.getText();
             subtractNumber(str);
+
+            mFifthButton.setClickable(false);
+            mFifthButton.setVisibility(View.INVISIBLE);
         });
 
         mSixthButton.setOnClickListener(v -> {
             String str = (String) mSixthButton.getText();
             subtractNumber(str);
+
+            mSixthButton.setClickable(false);
+            mSixthButton.setVisibility(View.INVISIBLE);
         });
 
         mSeventhButton.setOnClickListener(v -> {
             String str = (String) mSeventhButton.getText();
             subtractNumber(str);
+
+            mSeventhButton.setClickable(false);
+            mSeventhButton.setVisibility(View.INVISIBLE);
         });
 
         mEighthButton.setOnClickListener(v -> {
             String str = (String) mEighthButton.getText();
             subtractNumber(str);
+
+            mEighthButton.setClickable(false);
+            mEighthButton.setVisibility(View.INVISIBLE);
         });
 
         mNinthButton.setOnClickListener(v -> {
             String str = (String) mNinthButton.getText();
             subtractNumber(str);
+
+            mNinthButton.setClickable(false);
+            mNinthButton.setVisibility(View.INVISIBLE);
         });
     }
-
 
     private void bindViews() {
         // Initialize the components in view
@@ -156,19 +194,22 @@ public class MainActivity extends AppCompatActivity {
         mEighthButton = findViewById(R.id.line3Button2);
         mNinthButton = findViewById(R.id.line3Button3);
 
-        mStartNewGame = findViewById(R.id.startNewGame);
+        mStart = findViewById(R.id.startNewGame);
+        mRestart = findViewById(R.id.restart);
 
-        // Initialize the behavior of button
-        mFirstButton.setClickable(true);
-        mSecondButton.setClickable(true);
-        mThirdButton.setClickable(true);
-        mFourthButton.setClickable(true);
-        mFifthButton.setClickable(true);
-        mSixthButton.setClickable(true);
-        mSeventhButton.setClickable(true);
-        mEighthButton.setClickable(true);
-        mNinthButton.setClickable(true);
+    }
 
+    // Create a new game
+    private void newGame() {
+        // Generate random number above 2
+        int randomNumber = generateRandomNumber(MAX_RANDOM);
+
+        if (randomNumber < 2) randomNumber = 2;
+
+        // Generate game board and set mResults view
+        generateBoardGame(randomNumber);
+
+        mResults.setText(String.valueOf(randomNumber));
     }
 
     // Generate random number above 2
@@ -294,12 +335,72 @@ public class MainActivity extends AppCompatActivity {
     // When results = 1 and timer > 0, add 1 in score
     private void addScores(int results) {
         String sScore = (String) mScores.getText();
+        String sTimer = (String) mTimer.getText();
+
         int scores = Integer.parseInt(sScore);
+
+        boolean matches = sTimer.matches(" 00:00");
 
         if (results == 1) {
             scores = scores + 1;
 
             mScores.setText(String.valueOf(scores));
+
+            mRestart.setVisibility(View.VISIBLE);
         }
+
+        if (results < 1 || matches == true) {
+            hideButtons();
+            mRestart.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // When results < 1 or time = 0, hide buttons
+    private void hideButtons() {
+        mFirstButton.setClickable(false);
+        mSecondButton.setClickable(false);
+        mThirdButton.setClickable(false);
+        mFourthButton.setClickable(false);
+        mFifthButton.setClickable(false);
+        mSixthButton.setClickable(false);
+        mSeventhButton.setClickable(false);
+        mEighthButton.setClickable(false);
+        mNinthButton.setClickable(false);
+
+        mFirstButton.setVisibility(View.INVISIBLE);
+        mSecondButton.setVisibility(View.INVISIBLE);
+        mThirdButton.setVisibility(View.INVISIBLE);
+        mFourthButton.setVisibility(View.INVISIBLE);
+        mFifthButton.setVisibility(View.INVISIBLE);
+        mSixthButton.setVisibility(View.INVISIBLE);
+        mSeventhButton.setVisibility(View.INVISIBLE);
+        mEighthButton.setVisibility(View.INVISIBLE);
+        mNinthButton.setVisibility(View.INVISIBLE);
+    }
+
+    // When start or restart game, show buttons
+    // Initialize the behavior of button
+    private void showButtons() {
+        mFirstButton.setClickable(true);
+        mSecondButton.setClickable(true);
+        mThirdButton.setClickable(true);
+        mFourthButton.setClickable(true);
+        mFifthButton.setClickable(true);
+        mSixthButton.setClickable(true);
+        mSeventhButton.setClickable(true);
+        mEighthButton.setClickable(true);
+        mNinthButton.setClickable(true);
+
+        mFirstButton.setVisibility(View.VISIBLE);
+        mSecondButton.setVisibility(View.VISIBLE);
+        mThirdButton.setVisibility(View.VISIBLE);
+        mFourthButton.setVisibility(View.VISIBLE);
+        mFifthButton.setVisibility(View.VISIBLE);
+        mSixthButton.setVisibility(View.VISIBLE);
+        mSeventhButton.setVisibility(View.VISIBLE);
+        mEighthButton.setVisibility(View.VISIBLE);
+        mNinthButton.setVisibility(View.VISIBLE);
+
+        mStart.setVisibility(View.INVISIBLE);
     }
 }

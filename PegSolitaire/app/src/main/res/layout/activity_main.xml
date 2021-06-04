@@ -54,6 +54,21 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
+        android:id="@+id/restart"
+        android:layout_width="271dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="606dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/restart_button"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
         android:id="@+id/line2Button3"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -65,6 +80,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,6 +96,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,6 +111,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/line1Button3"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toEndOf="@+id/line1Button1"
@@ -111,6 +129,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,6 +145,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line1Button1" />
 
@@ -140,6 +160,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/line2Button3"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toEndOf="@+id/line2Button1"
@@ -159,6 +180,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line2Button1" />
@@ -175,6 +197,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/line3Button3"
         app:layout_constraintHorizontal_bias="0.494"
@@ -194,6 +217,7 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/line2Button3" />

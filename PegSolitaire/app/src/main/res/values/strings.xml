@@ -2,5 +2,5 @@
     <string name="app_name">PegSolitaire</string>
 
     <string name="start_button">Start</string>
-    <string name="new_game_button">New Game</string>
+    <string name="restart_button">Restart</string>
 </resources>
